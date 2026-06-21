@@ -1,0 +1,17 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Database
+*.db
+
+# Uploads
+uploads/
+
+# Config (contains secrets)
+config/settings.json

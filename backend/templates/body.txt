@@ -1,0 +1,9 @@
+Hi {{name}},
+
+We help businesses automate customer calls using AI voice call.
+
+Would you be interested in a quick demo for {{company}}?
+here: https://never-miss-ai-tau.vercel.app/
+
+Regards,
+SortyX

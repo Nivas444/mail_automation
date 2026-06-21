@@ -4,8 +4,8 @@ import {
   Users,
   FileText,
   ScrollText,
-  Mail,
   Flame,
+  Settings2,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -14,23 +14,14 @@ const NAV_ITEMS = [
   { to: "/templates",        icon: FileText,         label: "Templates" },
   { to: "/logs",             icon: ScrollText,       label: "Logs" },
   { to: "/interested-leads", icon: Flame,            label: "Interested Leads" },
+  { to: "/settings",         icon: Settings2,        label: "Settings" },
 ];
 
 export default function Navbar() {
   return (
     <aside className="w-56 shrink-0 bg-white border-r border-gray-100 flex flex-col">
-      {/* Logo */}
-      <div className="px-5 py-6 border-b border-gray-100">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-            <Mail className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-gray-900 leading-none">MailFlow</p>
-            <p className="text-xs text-gray-400 mt-0.5">Email Automation</p>
-          </div>
-        </div>
-      </div>
+      {/* Logo Placeholder (Empty) */}
+      <div className="h-[73px] border-b border-gray-100" />
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1">

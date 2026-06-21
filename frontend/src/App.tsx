@@ -5,6 +5,7 @@ import Leads from "./pages/Leads";
 import Templates from "./pages/Templates";
 import Logs from "./pages/Logs";
 import InterestedLeads from "./pages/InterestedLeads";
+import SettingsPage from "./pages/Settings";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="/templates" element={<Templates />} />
               <Route path="/logs" element={<Logs />} />
               <Route path="/interested-leads" element={<InterestedLeads />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Routes>
           </div>
         </main>

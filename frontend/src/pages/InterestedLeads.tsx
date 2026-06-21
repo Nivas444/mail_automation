@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Flame, Download, MousePointerClick, MailOpen, Inbox, Trash2 } from "lucide-react";
@@ -46,12 +46,20 @@ function exportCSV(leads: InterestedLead[]) {
 export default function InterestedLeads() {
   const qc = useQueryClient();
   const [confirmClear, setConfirmClear] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const { data: leads = [], isLoading } = useQuery({
     queryKey: ["interested-leads"],
     queryFn: getInterestedLeads,
     refetchInterval: 10000,
   });
+
+  // Update lastUpdated timestamp when leads refresh
+  useEffect(() => {
+    if (leads) {
+      setLastUpdated(new Date());
+    }
+  }, [leads]);
 
   const deleteOneMut = useMutation({
     mutationFn: deleteLog,
@@ -89,8 +97,16 @@ export default function InterestedLeads() {
             <Flame className="w-6 h-6 text-orange-500" />
             <h1 className="text-2xl font-bold text-gray-900">Interested Leads</h1>
           </div>
-          <p className="text-sm text-gray-500 mt-1">
-            Leads who clicked your email link — your hottest prospects.
+          <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
+            <span>Leads who clicked your email link — your hottest prospects.</span>
+            {lastUpdated && (
+              <>
+                <span className="text-gray-300">•</span>
+                <span className="text-xs text-gray-400">
+                  Last updated: {lastUpdated.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true })}
+                </span>
+              </>
+            )}
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {
@@ -55,6 +55,7 @@ export default function Logs() {
   const [interestFilter, setInterestFilter] = useState<InterestFilter>("all");
   const [search, setSearch] = useState("");
   const [confirmClear, setConfirmClear] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const { data: logs = [], isLoading } = useQuery({
     queryKey: ["logs", statusFilter, interestFilter, search],
@@ -66,6 +67,13 @@ export default function Logs() {
       ),
     refetchInterval: 5000,
   });
+
+  // Update lastUpdated timestamp when logs refresh
+  useEffect(() => {
+    if (logs) {
+      setLastUpdated(new Date());
+    }
+  }, [logs]);
 
   const deleteLogMut = useMutation({
     mutationFn: deleteLog,
@@ -115,8 +123,16 @@ export default function Logs() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Logs</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            {logs.length} log entr{logs.length !== 1 ? "ies" : "y"}
+          <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
+            <span>{logs.length} log entr{logs.length !== 1 ? "ies" : "y"}</span>
+            {lastUpdated && (
+              <>
+                <span className="text-gray-300">•</span>
+                <span className="text-xs text-gray-400">
+                  Last updated: {lastUpdated.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true })}
+                </span>
+              </>
+            )}
           </p>
         </div>
         <div className="flex items-center gap-2">

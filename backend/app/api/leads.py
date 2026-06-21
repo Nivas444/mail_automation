@@ -1,4 +1,5 @@
 import os
+from datetime import timezone
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
@@ -100,8 +101,8 @@ def get_interested_leads(db: Session = Depends(get_db)):
             "name": lead_name,
             "email": log.recipient_email,
             "company": log.company or "",
-            "opened_at": log.opened_at.isoformat() if log.opened_at else None,
-            "clicked_at": log.clicked_at.isoformat() if log.clicked_at else None,
+            "opened_at": log.opened_at.replace(tzinfo=timezone.utc).isoformat() if log.opened_at else None,
+            "clicked_at": log.clicked_at.replace(tzinfo=timezone.utc).isoformat() if log.clicked_at else None,
             "click_count": log.click_count or 0,
             "lead_interest": interest,
         })

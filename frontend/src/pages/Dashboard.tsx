@@ -20,6 +20,7 @@ export default function Dashboard() {
   const qc = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   // ── Queries ───────────────────────────────────────────────────────────────
   const { data: leads = [] } = useQuery({
@@ -40,6 +41,13 @@ export default function Dashboard() {
     refetchInterval: () =>
       campaignStatus?.status === "running" ? 2000 : false,
   });
+
+  // Update lastUpdated timestamp when queries refresh
+  useEffect(() => {
+    if (stats || campaignStatus) {
+      setLastUpdated(new Date());
+    }
+  }, [stats, campaignStatus]);
 
   // Refresh leads and stats when campaign completes
   useEffect(() => {
@@ -105,11 +113,19 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Manage your email campaign from one place.
-        </p>
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Manage your email campaign from one place.
+          </p>
+        </div>
+        {lastUpdated && (
+          <div className="text-xs text-gray-400 font-medium bg-gray-100 border border-gray-200 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+            Last updated: {lastUpdated.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true })}
+          </div>
+        )}
       </div>
 
 

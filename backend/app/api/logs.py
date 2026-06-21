@@ -1,3 +1,4 @@
+from datetime import timezone
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 from typing import Optional
@@ -52,12 +53,12 @@ def get_logs(
             "company": log.company,
             "subject": log.subject,
             "status": log.status,
-            "sent_at": log.sent_at.isoformat() if log.sent_at else None,
+            "sent_at": log.sent_at.replace(tzinfo=timezone.utc).isoformat() if log.sent_at else None,
             "error_message": log.error_message,
             "opened": log.opened,
-            "opened_at": log.opened_at.isoformat() if log.opened_at else None,
+            "opened_at": log.opened_at.replace(tzinfo=timezone.utc).isoformat() if log.opened_at else None,
             "clicked": log.clicked,
-            "clicked_at": log.clicked_at.isoformat() if log.clicked_at else None,
+            "clicked_at": log.clicked_at.replace(tzinfo=timezone.utc).isoformat() if log.clicked_at else None,
             "click_count": log.click_count or 0,
             "lead_interest": _compute_interest(log),
         }

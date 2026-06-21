@@ -6,7 +6,11 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-CONFIG_DIR = os.path.join(BASE_DIR, "config")
+DATA_DIR = os.getenv("DATA_DIR")
+if DATA_DIR:
+    CONFIG_DIR = os.path.join(DATA_DIR, "config")
+else:
+    CONFIG_DIR = os.path.join(BASE_DIR, "config")
 SETTINGS_FILE = os.path.join(CONFIG_DIR, "settings.json")
 
 # Defaults: read from .env, fall back to empty

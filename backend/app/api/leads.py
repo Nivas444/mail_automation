@@ -142,6 +142,7 @@ def get_leads(
 @router.delete("/all")
 def delete_all_leads(db: Session = Depends(get_db)):
     """Delete all lead records."""
+    db.query(EmailLog).update({EmailLog.lead_id: None})
     deleted = db.query(Lead).delete()
     db.commit()
     return {"message": f"Deleted {deleted} leads."}
@@ -153,6 +154,10 @@ def delete_lead(lead_id: int, db: Session = Depends(get_db)):
     lead = db.query(Lead).filter(Lead.id == lead_id).first()
     if not lead:
         raise HTTPException(status_code=404, detail="Lead not found.")
+    
+    # Nullify lead_id in referencing email logs to satisfy foreign key constraint
+    db.query(EmailLog).filter(EmailLog.lead_id == lead_id).update({EmailLog.lead_id: None})
+    
     db.delete(lead)
     db.commit()
     return {"message": "Lead deleted."}

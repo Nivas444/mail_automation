@@ -1,1 +1,1 @@
-AI voice call for {{company}}
+quick question for {{company}}

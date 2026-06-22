@@ -1,9 +1,12 @@
 Hi {{name}},
 
-We help businesses automate customer calls using AI voice call.
+I saw your work at {{company}} and wanted to ask how you handle customer calls.
 
-Would you be interested in a quick demo for {{company}}?
-here: https://never-miss-ai-tau.vercel.app/
+We built an AI receptionist that answers calls and schedules bookings automatically, so businesses never miss a lead. 
 
-Regards,
-SortyX
+If you are open to checking it out, we have a short demo here: https://never-miss-ai-tau.vercel.app/
+
+Would you be interested in a quick 2-minute chat next week?
+
+Best,
+Jayaram

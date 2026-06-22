@@ -10,7 +10,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import engine, Base
-from app.models import lead, email_log  # noqa: F401 — ensure models are registered
+from app.models import lead, email_log, app_data  # noqa: F401 — ensure models are registered
 from app.api import leads, templates, settings, campaign, logs, dashboard, webhooks, tracking
 
 # Run simple SQLite migrations for the new columns if the DB already exists

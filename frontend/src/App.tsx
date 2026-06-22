@@ -6,10 +6,12 @@ import Templates from "./pages/Templates";
 import Logs from "./pages/Logs";
 import InterestedLeads from "./pages/InterestedLeads";
 import SettingsPage from "./pages/Settings";
+import SettingsSynchronizer from "./components/SettingsSynchronizer";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <SettingsSynchronizer />
       <div className="flex h-screen overflow-hidden bg-gray-50">
         {/* Sidebar */}
         <Navbar />

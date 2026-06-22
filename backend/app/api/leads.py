@@ -11,10 +11,12 @@ from app.services.excel_parser import parse_file
 
 router = APIRouter()
 
-UPLOADS_DIR = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-    "uploads",
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DATA_DIR = os.getenv("DATA_DIR")
+if DATA_DIR:
+    UPLOADS_DIR = os.path.join(DATA_DIR, "uploads")
+else:
+    UPLOADS_DIR = os.path.join(BASE_DIR, "uploads")
 
 
 @router.post("/upload")

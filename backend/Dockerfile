@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p uploads templates config
+RUN mkdir -p uploads templates config data
 
 EXPOSE 8000
 

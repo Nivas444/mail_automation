@@ -11,7 +11,10 @@ if DATA_DIR:
     CONFIG_DIR = os.path.join(DATA_DIR, "config")
 else:
     CONFIG_DIR = os.path.join(BASE_DIR, "config")
+
+DEFAULT_CONFIG_DIR = os.path.join(BASE_DIR, "config")
 SETTINGS_FILE = os.path.join(CONFIG_DIR, "settings.json")
+DEFAULT_SETTINGS_FILE = os.path.join(DEFAULT_CONFIG_DIR, "settings.json")
 
 # Defaults: read from .env, fall back to empty
 try:
@@ -36,7 +39,17 @@ def _ensure_config_dir():
 def load_settings() -> dict:
     _ensure_config_dir()
     if not os.path.exists(SETTINGS_FILE):
-        return DEFAULT_SETTINGS.copy()
+        # Try loading default settings from repository
+        default_data = {}
+        if os.path.exists(DEFAULT_SETTINGS_FILE) and DEFAULT_SETTINGS_FILE != SETTINGS_FILE:
+            try:
+                with open(DEFAULT_SETTINGS_FILE, "r", encoding="utf-8") as f:
+                    default_data = json.load(f)
+            except Exception:
+                pass
+        merged = DEFAULT_SETTINGS.copy()
+        merged.update({k: v for k, v in default_data.items() if v not in ("", None)})
+        return merged
     try:
         with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)

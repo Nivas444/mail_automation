@@ -4,9 +4,20 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.getenv("DATA_DIR")
+
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
-    DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'email_automation.db')}"
+    if DATA_DIR:
+        DB_PATH = os.path.join(DATA_DIR, 'email_automation.db')
+    else:
+        DB_PATH = os.path.join(BASE_DIR, 'email_automation.db')
+    DATABASE_URL = f"sqlite:///{DB_PATH}"
+else:
+    if DATABASE_URL.startswith("sqlite:///"):
+        DB_PATH = DATABASE_URL.replace("sqlite:///", "")
+    else:
+        DB_PATH = None
 
 engine = create_engine(
     DATABASE_URL,

@@ -9,12 +9,10 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend/uploads:/app/uploads
-      - ./backend/templates:/app/templates
-      - ./backend/config:/app/config
-      - ./backend/email_automation.db:/app/email_automation.db
+      - ./backend/data:/app/data
     environment:
       - PYTHONUNBUFFERED=1
+      - DATA_DIR=/app/data
     restart: unless-stopped
 
   frontend:

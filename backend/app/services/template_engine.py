@@ -2,10 +2,17 @@ import os
 from typing import Dict
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
+DATA_DIR = os.getenv("DATA_DIR")
+if DATA_DIR:
+    TEMPLATES_DIR = os.path.join(DATA_DIR, "templates")
+else:
+    TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
+DEFAULT_TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 SUBJECT_FILE = os.path.join(TEMPLATES_DIR, "subject.txt")
 BODY_FILE = os.path.join(TEMPLATES_DIR, "body.txt")
+DEFAULT_SUBJECT_FILE = os.path.join(DEFAULT_TEMPLATES_DIR, "subject.txt")
+DEFAULT_BODY_FILE = os.path.join(DEFAULT_TEMPLATES_DIR, "body.txt")
 
 
 def _ensure_templates_dir():
@@ -15,6 +22,13 @@ def _ensure_templates_dir():
 def load_subject() -> str:
     _ensure_templates_dir()
     if not os.path.exists(SUBJECT_FILE):
+        # Fall back to default template file from code repository if it exists
+        if os.path.exists(DEFAULT_SUBJECT_FILE) and DEFAULT_SUBJECT_FILE != SUBJECT_FILE:
+            try:
+                with open(DEFAULT_SUBJECT_FILE, "r", encoding="utf-8") as f:
+                    return f.read()
+            except Exception:
+                pass
         return "AI Receptionist for {{company}}"
     with open(SUBJECT_FILE, "r", encoding="utf-8") as f:
         return f.read()
@@ -23,6 +37,13 @@ def load_subject() -> str:
 def load_body() -> str:
     _ensure_templates_dir()
     if not os.path.exists(BODY_FILE):
+        # Fall back to default template file from code repository if it exists
+        if os.path.exists(DEFAULT_BODY_FILE) and DEFAULT_BODY_FILE != BODY_FILE:
+            try:
+                with open(DEFAULT_BODY_FILE, "r", encoding="utf-8") as f:
+                    return f.read()
+            except Exception:
+                pass
         return (
             "Hi {{name}},\n\n"
             "We help businesses automate customer calls using AI Receptionists.\n\n"

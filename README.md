@@ -208,7 +208,8 @@ Then update `frontend/src/services/api.ts` baseURL to your Render backend URL.
 3. Set:
    - Build Command: `pip install -r requirements.txt`
    - Start Command: `uvicorn app.main:app --host 0.0.0.0 --port 10000`
-4. Add a persistent disk (mount path: `/app`) for SQLite + uploads
+4. Add a persistent disk with a **Mount Path** of `/app/data` (do NOT mount to `/app` directly as it will override your code).
+5. In the **Environment Variables** tab, add `DATA_DIR=/app/data`. This ensures all settings, custom templates, uploaded spreadsheets, and SQLite database logs are kept alive until you choose to delete them.
 
 ---
 

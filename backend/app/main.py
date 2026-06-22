@@ -18,11 +18,10 @@ from app.api import leads, templates, settings, campaign, logs, dashboard, webho
 def run_migrations():
     import sqlite3
     import os
-    from app.database import BASE_DIR
-    db_path = os.path.join(BASE_DIR, 'email_automation.db')
-    if not os.path.exists(db_path):
+    from app.database import DB_PATH
+    if not DB_PATH or not os.path.exists(DB_PATH):
         return
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
         # Check if email_logs table exists
